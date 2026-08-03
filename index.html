@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Sprint</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      color: #333;
+    }
+    #timer {
+      font-size: 48px;
+      margin: 20px 0;
+      color: #2c3e50;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #3498db;
+      color: white;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    #prompt {
+      margin: 20px 0;
+      font-size: 20px;
+      color: #555;
+    }
+    #streak {
+      font-size: 18px;
+      color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Study Sprint</h1>
+  <div id="prompt">Click "New Prompt" to start!</div>
+  <button onclick="newPrompt()">New Prompt</button>
+  
+  <div id="timer">25:00</div>
+  <button onclick="startTimer()">Start Sprint</button>
+  <button onclick="resetTimer()">Reset</button>
+  
+  <div id="streak">Streak: 0</div>
+
+  <script>
+    // Study prompts
+    const prompts = [
+      "Outline one essay paragraph",
+      "Memorize 10 geography facts",
+      "Solve 5 math problems",
+      "Summarize one page in your own words",
+      "Teach a concept aloud for 2 minutes"
+    ];
+
+    function newPrompt() {
+      const random = prompts[Math.floor(Math.random() * prompts.length)];
+      document.getElementById("prompt").innerText = random;
+    }
+
+    // Timer logic
+    let time = 25 * 60; // 25 minutes in seconds
+    let timerInterval;
+    let streak = 0;
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        document.getElementById("timer").innerText =
+          `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        time--;
+
+        if (time < 0) {
+          clearInterval(timerInterval);
+          alert("Sprint complete! 🎉");
+          streak++;
+          document.getElementById("streak").innerText = "Streak: " + streak;
+          time = 25 * 60; // reset for next sprint
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      time = 25 * 60;
+      document.getElementById("timer").innerText = "25:00";
+    }
+  </script>
+</body>
+</html>
